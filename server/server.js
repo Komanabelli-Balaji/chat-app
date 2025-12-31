@@ -23,7 +23,7 @@ const server = http.createServer(app);
 // Socket.io server
 export const io = new Server(server, {
   cors: { 
-    origin: "http://127.0.0.1:5173",
+    origin: "http://localhost:5173",
     credentials: true,
   },
 });
@@ -56,7 +56,7 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json({ limit: "4mb" }));
 app.use(
   cors({
-    origin: "http://127.0.0.1:5173",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
