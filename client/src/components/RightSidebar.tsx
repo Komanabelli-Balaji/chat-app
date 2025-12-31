@@ -1,6 +1,7 @@
 import assets from "../assets/assets";
 import { useAuth } from "../hooks/useAuth";
 import { useChat } from "../hooks/useChat";
+import { v4 as uuidv4 } from 'uuid';
 
 const RightSidebar = () => {
   const { selectedUser, messages } = useChat();
@@ -37,9 +38,9 @@ const RightSidebar = () => {
         <div className="text-xs px-5">
           <p>Media</p>
           <div className="mt-2 max-h-50 overflow-y-scroll grid grid-cols-2 gap-4 opacity-80">
-            {msgImages.map((url: string, index: number) => (
+            {msgImages.map((url: string) => (
               <div
-                key={index}
+                key={uuidv4()}
                 onClick={() => window.open(url)}
                 className="cursor-pointer rounded"
               >
