@@ -4,8 +4,13 @@ import { useChat } from "../hooks/useChat";
 import { v4 as uuidv4 } from 'uuid';
 
 const RightSidebar = () => {
-  const { selectedUser, messages } = useChat();
+  const { selectedUser, messages, resetChat } = useChat();
   const { logout, onlineUsers } = useAuth();
+
+  const handleLogout = async () => {
+    resetChat();
+    await logout();
+  }
 
   // Get all the images from the messages and set them to state
   const msgImages = messages
@@ -50,7 +55,7 @@ const RightSidebar = () => {
           </div>
         </div>
 
-        <button onClick={logout} className="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-linear-to-r from-purple-400 to-violet-600 text-white border-none text-sm font-light py-2 px-20 rounded-full cursor-pointer">
+        <button onClick={handleLogout} className="absolute bottom-5 left-1/2 transform -translate-x-1/2 bg-linear-to-r from-purple-400 to-violet-600 text-white border-none text-sm font-light py-2 px-20 rounded-full cursor-pointer">
           Logout
         </button>
       </div>

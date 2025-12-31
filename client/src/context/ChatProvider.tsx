@@ -85,6 +85,12 @@ const ChatProvider = ({ children }: { children: React.ReactNode }) => {
     [selectedUser]
   );
 
+  const resetChat = () => {
+    setMessages([]);
+    setSelectedUser(null);
+    setUnseenMessages({});
+  };
+
   useEffect(() => {
     onSocketEvent("newMessage", handleNewMessage);
     return () => offSocketEvent("newMessage", handleNewMessage);
@@ -100,6 +106,7 @@ const ChatProvider = ({ children }: { children: React.ReactNode }) => {
     sendMessage,
     setSelectedUser,
     setUnseenMessages,
+    resetChat
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;

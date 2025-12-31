@@ -50,4 +50,5 @@ export interface ChatContextType {
   sendMessage: (data: { text?: string; image?: string }) => Promise<void>;
   setSelectedUser: React.Dispatch<React.SetStateAction<UserData | null>>;
   setUnseenMessages: React.Dispatch<React.SetStateAction<Record<string, number>>>;
+  resetChat: () => void;
 }

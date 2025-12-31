@@ -16,10 +16,16 @@ const Sidebar = () => {
   } = useChat();
 
   const { logout, onlineUsers } = useAuth();
+  const { resetChat } = useChat();
 
   const [input, setInput] = useState<string>("");
 
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    resetChat();
+    await logout();
+  }
 
   const filterUsers: UserData[] = input
     ? users.filter((user: UserData) =>
@@ -54,7 +60,7 @@ const Sidebar = () => {
                 Edit Profile
               </p>
               <hr className="my-2 border-t border-gray-500" />
-              <p onClick={() => logout()} className="cursor-pointer text-sm">
+              <p onClick={() => handleLogout()} className="cursor-pointer text-sm">
                 Logout
               </p>
             </div>
