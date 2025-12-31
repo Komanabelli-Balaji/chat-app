@@ -76,9 +76,8 @@ const ChatContainer = () => {
           onClick={() => setSelectedUser(null)}
           src={assets.arrow_icon}
           alt=""
-          className="md:hidden max-w-7"
+          className="cursor-pointer max-md:max-w-7 md:max-w-5"
         />
-        <img src={assets.help_icon} alt="" className="max-md:hidden max-w-5" />
       </div>
 
       {/* ---------------- chat area -------------------- */}
