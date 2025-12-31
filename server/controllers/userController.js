@@ -108,6 +108,23 @@ export const login = async (req, res) => {
   }
 };
 
+// Logout user
+export const logout = (req, res) => {
+  try {
+    res.clearCookie("uid", {
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false,
+    });
+
+    res.status(200).json({ success: true, message: "Logged out" });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ success: false, message: "Server error. Please try again later." });
+  }
+};
+
+
 // Controller to check if user is authenticated
 export const checkAuth = (req, res) => {
   res.status(200).json({ success: true, message: "User is authenticated.", user: req.user });
