@@ -44,7 +44,7 @@ export const getMessages = async (req, res) => {
       ],
     });
     await Message.updateMany(
-      { senderId: selectedUserId, recieverId: myId },
+      { senderId: selectedUserId, receiverId: myId },
       { seen: true }
     );
 
@@ -71,31 +71,41 @@ export const markMessageAsSeen = async (req, res) => {
 export const sendMessage = async (req, res) => {
   try {
     const { text, image } = req.body;
-    const recieverId = req.params.id;
+    const receiverId = req.params.id;
     const senderId = req.user._id;
 
     let imageUrl;
     if (image) {
-      const uploadResponse = await cloudinary.uploader.upload(image);
+      if (typeof image !== "string" || !image.startsWith("data:image")) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid image format",
+        });
+      }
+
+      const uploadResponse = await cloudinary.uploader.upload(image, {
+        folder: "chat_images",
+      });
       imageUrl = uploadResponse.secure_url;
     }
 
     const newMessage = await Message.create({
       senderId,
-      recieverId,
+      receiverId,
       text,
       image: imageUrl,
     });
 
     // Emit the new message to the receiver's socket
-    const receiverSocketId = userSocketMap[recieverId];
+    const receiverSocketId = userSocketMap[receiverId];
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("newMessage", newMessage);
     }
 
-    res.status(200).json({ success: true, message: newMessage });
+    res.status(200).json({ success: true, newMessage: newMessage });
   } catch (error) {
     console.log(error.message);
+    console.error("Send message error:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
